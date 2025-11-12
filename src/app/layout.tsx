@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 import { Analytics } from "@vercel/analytics/next";
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: "GitHub Search Agent",
@@ -19,13 +20,17 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className="h-full">
         <head>
         {/* add The Context Company widget */}
-        <script
+        {/* <script
           crossOrigin="anonymous"
           src="//unpkg.com/@contextcompany/widget/dist/auto.global.js"
-        />
+        /> */}
         {/* other scripts */}
       </head>
       <body className="h-full antialiased">
+        <Script
+        src="//unpkg.com/@contextcompany/widget/dist/auto.global.js"
+          strategy="beforeInteractive"
+        />
         <ConvexClientProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Navbar />
