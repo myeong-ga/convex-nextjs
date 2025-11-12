@@ -5,7 +5,10 @@ import { DataModel } from "./_generated/dataModel";
 import { query } from "./_generated/server";
 import { betterAuth } from "better-auth";
 
-const siteUrl = process.env.SITE_URL!;
+// Use SITE_URL for local development, fall back to Vercel URL in production
+const siteUrl = process.env.SITE_URL || process.env.VERCEL_URL 
+  ? `https://${process.env.VERCEL_URL}` 
+  : "http://localhost:3009";
 
 // Component client: helper glue for Convex + Better Auth
 export const authComponent = createClient<DataModel>(components.betterAuth);
@@ -20,6 +23,7 @@ export const createAuth = (
       disabled: optionsOnly,
     },
     baseURL: siteUrl,
+    trustedOrigins: [siteUrl],
     database: authComponent.adapter(ctx),
     secret: process.env.BETTER_AUTH_SECRET!,
     socialProviders: {
